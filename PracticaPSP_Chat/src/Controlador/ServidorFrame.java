@@ -1,11 +1,12 @@
-package Servidor;
-
+package Controlador;
 
 import javax.swing.*;
 
 import java.awt.*;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -53,19 +54,29 @@ class MarcoServidor extends JFrame implements Runnable{
 		try {
 			ServerSocket servidor = new ServerSocket(9999);
 			
+			String nick, ip, mensaje;
+			
+			Envio paqueteRecibido;
+			
 			while(true) {
 							
 				Socket socket = servidor.accept();
 				
-				DataInputStream flujoEntrada= new DataInputStream(socket.getInputStream());
+				ObjectInputStream paqueteDatos= new ObjectInputStream(socket.getInputStream());
 				
-				String mensaje= flujoEntrada.readUTF();
+				paqueteRecibido= (Envio) paqueteDatos.readObject();
 				
-				areatexto.append("\n Jano: "+mensaje);
+				nick= paqueteRecibido.getNick();
+				
+				ip= paqueteRecibido.getIp();
+				
+				mensaje= paqueteRecibido.getMensaje();
+				
+				areatexto.append("\n "+ nick + ": " + mensaje);
 				
 				socket.close();
 			}
-		} catch (IOException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
