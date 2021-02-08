@@ -12,15 +12,17 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 
-public class ClienteFrame extends JFrame {
+public class ClienteFrame extends JFrame implements Runnable{
 
 	/**
 	 * 
@@ -92,6 +94,8 @@ public class ClienteFrame extends JFrame {
 					
 					paqueteDatos.writeObject(envio);
 					
+					chat.append("\n " + envio.getNick() + ": " + envio.getMensaje());
+					
 					socket.close();
 				} catch (UnknownHostException e1) {
 					// TODO Auto-generated catch block
@@ -129,7 +133,32 @@ public class ClienteFrame extends JFrame {
 		lblNewLabel_1.setBounds(263, 22, 46, 14);
 		contentPane.add(lblNewLabel_1);
 		
+		Thread miHilo= new Thread(this);
+		miHilo.start();
 		
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			ServerSocket recepcionCliente= new ServerSocket(9090);
+			
+			Socket cliente;
+			
+			Envio paqueteRecibido;
+			
+			while(true) {
+				cliente=recepcionCliente.accept();
+				
+				ObjectInputStream flujoEntrada= new ObjectInputStream(cliente.getInputStream());
+				
+				paqueteRecibido= (Envio) flujoEntrada.readObject();
+			}
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 

@@ -6,6 +6,7 @@ import java.awt.*;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -73,6 +74,14 @@ class MarcoServidor extends JFrame implements Runnable{
 				mensaje= paqueteRecibido.getMensaje();
 				
 				areatexto.append("\n "+ nick + ": " + mensaje);
+				
+				Socket envioCliente = new Socket(ip, 9090);
+				
+				ObjectOutputStream paqueteReenvio= new ObjectOutputStream(envioCliente.getOutputStream());
+				
+				paqueteReenvio.writeObject(paqueteRecibido);
+				
+				envioCliente.close();
 				
 				socket.close();
 			}
