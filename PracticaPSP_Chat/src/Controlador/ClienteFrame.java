@@ -30,7 +30,6 @@ public class ClienteFrame extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	static private JTextField mensaje;
-	static private JTextArea chat;
 	static private JTextField nick;
 	static private JTextField ip;
 
@@ -63,13 +62,13 @@ public class ClienteFrame extends JFrame implements Runnable{
 	 */
 	public ClienteFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 498, 144);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		mensaje = new JTextField();
-		mensaje.setBounds(10, 230, 315, 20);
+		mensaje.setBounds(25, 66, 315, 20);
 		contentPane.add(mensaje);
 		mensaje.setColumns(10);
 		
@@ -80,7 +79,7 @@ public class ClienteFrame extends JFrame implements Runnable{
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					Socket socket = new Socket("192.168.56.1", 9999);
+					Socket socket = new Socket("10.10.200.46", 9999);
 					
 					Envio envio = new Envio();
 					
@@ -94,7 +93,6 @@ public class ClienteFrame extends JFrame implements Runnable{
 					
 					paqueteDatos.writeObject(envio);
 					
-					chat.append("\n " + envio.getNick() + ": " + envio.getMensaje());
 					
 					socket.close();
 				} catch (UnknownHostException e1) {
@@ -108,12 +106,8 @@ public class ClienteFrame extends JFrame implements Runnable{
 				}
 			}
 		});
-		btnNewButton.setBounds(335, 229, 89, 23);
+		btnNewButton.setBounds(361, 64, 89, 23);
 		contentPane.add(btnNewButton);
-		
-		chat = new JTextArea();
-		chat.setBounds(10, 50, 414, 168);
-		contentPane.add(chat);
 		
 		nick = new JTextField();
 		nick.setBounds(64, 19, 86, 20);
