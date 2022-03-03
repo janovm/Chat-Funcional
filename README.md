@@ -1,6 +1,6 @@
 # Título del Proyecto
 
-En este proyecto utilizo lo practicado en el proyecto de HilosJava para hacer un Chat funcional con despliegue en Java swing
+En este proyecto utilizo lo practicado en el proyecto de anterior para hacer un Chat funcional con despliegue en Java swing
 
 ## Comenzando 🚀
 
